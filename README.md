@@ -6,13 +6,12 @@ Este programa transforma PDFs digitalizados em documentos pesquisáveis. A apar�
 
 Todo o reconhecimento é feito no próprio computador. Os documentos não são enviados para serviços externos.
 
-## Uso rápido no Windows
+## Uso rápido
 
-1. Instale o programa com `AcervoOCR-Instalador-1.0.0.exe`.
-2. Abra o atalho **AcervoOCR**.
-3. Arraste um ou vários PDFs para a janela.
-4. Clique em **Converter arquivos**.
-5. Encontre cada resultado na pasta do original com o nome `nome_ocr.pdf`.
+1. Coloque um ou vários PDFs na pasta `arquivos`.
+2. Abra o AcervoOCR.
+3. A conversão começará automaticamente em alta qualidade.
+4. Cada resultado será salvo como `nome_ocr.pdf` na mesma pasta.
 
 ## O que é OCR?
 
@@ -49,40 +48,73 @@ O resultado do OCR deve ser entendido como um auxílio à pesquisa, não como um
 
 ## Antes de instalar
 
-No Windows, o instalador já contém o programa e todas as dependências; a instalação e o processamento podem ser realizados sem internet depois que o arquivo `.exe` for baixado. No Linux e no macOS, é necessário ter acesso à internet durante a instalação inicial.
+É necessário ter acesso à internet durante a preparação inicial, pois as bibliotecas e os modelos de português serão baixados. Depois disso, o processamento pode ser realizado sem internet.
 
 Reserve aproximadamente 1 GB de espaço livre. O modo de alta qualidade pode demorar vários minutos em documentos extensos, dependendo do computador e da qualidade das páginas.
 
-## Instalação no Windows 10 ou 11
+## Como baixar o programa pelo GitHub
 
-O Windows deve ser de 64 bits. O usuário não precisa instalar Python, Tesseract, bibliotecas nem utilizar o Prompt de Comando.
+Não é necessário criar uma conta no GitHub, conhecer programação ou instalar o Git.
 
-1. Baixe o arquivo `AcervoOCR-Instalador-1.0.0.exe` na página de versões do projeto.
-2. Clique duas vezes no arquivo baixado.
-3. O Windows poderá perguntar se deseja permitir a instalação. Confira o nome **AcervoOCR** e prossiga.
-4. Escolha a pasta de instalação ou mantenha a opção sugerida.
-5. Deixe marcada a opção para criar um atalho na Área de Trabalho.
-6. Clique em **Instalar** e aguarde.
-7. Ao final, clique em **Concluir** para abrir o programa.
+1. Abra no navegador a página do projeto AcervoOCR no GitHub.
+2. Na página do projeto, localize o botão verde chamado **Code**. Ele fica acima da lista de arquivos.
+3. Clique em **Code** e depois em **Download ZIP**.
+4. Aguarde o download. O arquivo normalmente será salvo na pasta **Downloads** e terá um nome parecido com `acervo-ocr-main.zip`.
+5. O arquivo ZIP é uma pasta compactada. Ele precisa ser extraído antes do uso.
 
-O instalador é um assistente convencional do Windows. Ele inclui o aplicativo, Python, OCRmyPDF, Tesseract e os modelos de português. O programa também aparecerá em **Configurações → Aplicativos → Aplicativos instalados**, onde poderá ser desinstalado normalmente.
+### Extrair no Windows
 
-> **Aviso sobre o Windows SmartScreen:** enquanto o instalador não possuir uma assinatura digital comercial, o Windows poderá mostrar a mensagem “O Windows protegeu o computador”. Nesse caso, confirme que o arquivo veio da página oficial do projeto, clique em **Mais informações** e depois em **Executar assim mesmo**. Para distribuição pública ampla, recomenda-se assinar digitalmente o instalador.
+1. Abra a pasta **Downloads**.
+2. Clique com o botão direito em `acervo-ocr-main.zip`.
+3. Escolha **Extrair Tudo...**.
+4. Clique em **Extrair** e aguarde a nova pasta ser aberta.
+5. Entre na pasta extraída. Se houver outra pasta com o mesmo nome dentro dela, abra essa pasta também.
+6. Confirme que consegue ver arquivos como `README.md`, `instalar_windows.bat` e a pasta `arquivos`.
+
+Não execute o programa diretamente dentro da janela do ZIP. Os arquivos precisam estar na pasta extraída.
+
+### Extrair no macOS
+
+1. Abra a pasta **Downloads** no Finder.
+2. Clique duas vezes em `acervo-ocr-main.zip`.
+3. O macOS criará automaticamente uma pasta chamada `acervo-ocr-main`.
+4. Abra essa pasta e confirme que nela aparecem `README.md`, `instalar_unix.sh` e a pasta `arquivos`.
+
+### Extrair no Linux
+
+1. Abra a pasta **Downloads** no gerenciador de arquivos.
+2. Clique com o botão direito em `acervo-ocr-main.zip`.
+3. Escolha **Extrair aqui** ou **Extrair para...**.
+4. Abra a pasta extraída e confirme que nela aparecem `README.md`, `instalar_unix.sh` e a pasta `arquivos`.
+
+> O nome do ZIP pode ser um pouco diferente, dependendo do nome do repositório ou da versão baixada. O procedimento é o mesmo.
+
+## Preparação no Windows 10 ou 11
+
+O Windows deve ser de 64 bits.
+
+1. Depois de seguir a seção **Como baixar o programa pelo GitHub**, abra a pasta extraída.
+2. Clique duas vezes em `instalar_windows.bat`.
+3. O Windows instalará os componentes necessários. Se a janela pedir para ser fechada, abra `instalar_windows.bat` novamente.
+4. Aguarde a mensagem `Instalação concluída`.
+5. Nas próximas utilizações, abra `abrir_acervo_ocr.bat`.
+
+A preparação instala uma versão isolada do Python, a interface gráfica, o OCRmyPDF, o Tesseract e os modelos de português.
 
 ### Como usar no Windows
 
-Ao terminar a instalação, será criado o atalho **AcervoOCR** na Área de Trabalho e no Menu Iniciar. Clique duas vezes no atalho para abrir a interface gráfica.
+Clique duas vezes em `abrir_acervo_ocr.bat` para abrir a interface gráfica.
 
 Na janela do AcervoOCR:
 
 1. Arraste um ou vários PDFs para a grande área pontilhada. Se preferir, clique em **Selecionar PDFs**.
 2. Confira os documentos apresentados na lista. Arquivos adicionados por engano podem ser removidos.
-3. Marque **Alta qualidade** para documentos antigos, desgastados ou com letras pequenas. Essa opção demora mais.
+3. O modo **Alta qualidade** já vem marcado e é o padrão. Desmarque somente se priorizar velocidade.
 4. Marque `.txt` para exportar somente texto. Marque `.json` para criar o texto simples e também um arquivo estruturado por página.
 5. Clique em **Converter arquivos**.
 6. Mantenha o programa aberto até aparecer a mensagem de conclusão.
 
-Não é necessário abrir o Prompt de Comando, digitar comandos ou ativar o ambiente Python.
+Como alternativa, coloque os PDFs na pasta `arquivos` antes de abrir o programa. Eles serão carregados e convertidos automaticamente.
 
 O novo documento será salvo na mesma pasta do original. Por exemplo:
 
@@ -90,23 +122,26 @@ O novo documento será salvo na mesma pasta do original. Por exemplo:
 documento.pdf  →  documento_ocr.pdf
 ```
 
+Na próxima execução, um original que já possua resultado atualizado será ignorado. Se o PDF original for alterado posteriormente, ele será convertido novamente.
+
 Documentos grandes podem levar algum tempo. A interface informa qual arquivo está sendo processado e avisa quando tudo estiver concluído.
 
 ## Instalação no macOS
 
 O instalador utiliza o Homebrew, um gerenciador de programas para macOS.
 
-1. Se o Homebrew ainda não estiver instalado, siga as instruções em [brew.sh](https://brew.sh).
-2. Abra o aplicativo **Terminal**.
-3. Digite `cd`, deixe um espaço e arraste a pasta deste programa para dentro do Terminal. Pressione `Enter`. Isso abre a pasta correta no Terminal.
-4. Copie e execute os comandos abaixo, um de cada vez:
+1. Baixe e extraia o projeto conforme explicado em **Como baixar o programa pelo GitHub**.
+2. Se o Homebrew ainda não estiver instalado, siga as instruções em [brew.sh](https://brew.sh).
+3. Abra o aplicativo **Terminal**.
+4. Digite `cd`, deixe um espaço e arraste a pasta extraída do programa para dentro do Terminal. Pressione `Enter`. Isso abre a pasta correta no Terminal.
+5. Copie e execute os comandos abaixo, um de cada vez:
 
 ```sh
 chmod +x instalar_unix.sh executar_unix.sh
 ./instalar_unix.sh
 ```
 
-5. Aguarde a mensagem `Instalação concluída`.
+6. Aguarde a mensagem `Instalação concluída`.
 
 Para abrir o programa posteriormente, entre novamente na pasta pelo Terminal e execute:
 
@@ -114,22 +149,23 @@ Para abrir o programa posteriormente, entre novamente na pasta pelo Terminal e e
 ./executar_unix.sh
 ```
 
-Uma janela será aberta para selecionar os PDFs. O programa perguntará se deseja usar o modo normal ou o modo de alta qualidade. Se o macOS bloquear a primeira execução, abra **Ajustes do Sistema → Privacidade e Segurança** e autorize o programa.
+Se não houver PDFs na pasta `arquivos`, uma janela será aberta para selecionar os documentos. O modo de alta qualidade será usado automaticamente. Se o macOS bloquear a primeira execução, abra **Ajustes do Sistema → Privacidade e Segurança** e autorize o programa.
 
 ## Instalação no Linux
 
 O instalador reconhece Ubuntu, Debian, Fedora e distribuições que utilizam Homebrew.
 
-1. Abra o Terminal na pasta deste programa. Em muitos gerenciadores de arquivos, basta clicar com o botão direito dentro da pasta e escolher **Abrir no terminal**.
-2. Execute:
+1. Baixe e extraia o projeto conforme explicado em **Como baixar o programa pelo GitHub**.
+2. Abra o Terminal na pasta extraída. Em muitos gerenciadores de arquivos, basta clicar com o botão direito dentro da pasta e escolher **Abrir no terminal**.
+3. Execute:
 
 ```sh
 chmod +x instalar_unix.sh executar_unix.sh
 ./instalar_unix.sh
 ```
 
-3. Digite sua senha se o sistema solicitar. A senha não aparece na tela enquanto é digitada; isso é normal.
-4. Aguarde a mensagem `Instalação concluída`.
+4. Digite sua senha se o sistema solicitar. A senha não aparece na tela enquanto é digitada; isso é normal.
+5. Aguarde a mensagem `Instalação concluída`.
 
 Para usar o programa:
 
@@ -145,13 +181,13 @@ Se o computador não possuir interface gráfica, informe o PDF diretamente:
 
 ## Modo de alta qualidade
 
-O modo comum oferece um bom equilíbrio entre velocidade e precisão. Para documentos com letras pequenas, impressão desgastada ou digitalização de qualidade inferior, use `--qualidade_alta`:
+O modo de alta qualidade é o padrão. Ele é indicado para documentos históricos, letras pequenas, impressão desgastada ou digitalização de qualidade inferior:
 
 ```sh
-./executar_unix.sh documento.pdf --qualidade_alta
+./executar_unix.sh documento.pdf
 ```
 
-No Windows, basta marcar **Alta qualidade** na interface antes de clicar em **Converter arquivos**.
+No Windows, a caixa **Alta qualidade** já aparece marcada.
 
 Esse modo:
 
@@ -161,7 +197,11 @@ Esse modo:
 - utiliza o mecanismo LSTM do Tesseract;
 - aplica segmentação automática, correção de inclinação e rotação.
 
-O processamento será mais lento e consumirá mais memória. No Windows, o modelo já está incluído no aplicativo. No Linux e no macOS, ele é baixado automaticamente durante a instalação.
+O processamento será mais lento e consumirá mais memória. Para priorizar velocidade no terminal, use `--modo_rapido`:
+
+```sh
+./executar_unix.sh documento.pdf --modo_rapido
+```
 
 ## Outros comandos úteis
 
@@ -245,29 +285,7 @@ O núcleo em Python chama o OCRmyPDF, que prepara cada página e acrescenta a ca
 
 No modo comum, o programa usa `tessdata_fast`, que equilibra velocidade e precisão. No modo de alta qualidade, usa `tessdata_best`, reamostragem em 400 DPI e o mecanismo LSTM do Tesseract.
 
-No Linux e no macOS, não é preciso ativar manualmente esse ambiente: `executar_unix.sh` já utiliza o Python correto. No Windows, todos os componentes ficam empacotados dentro do aplicativo instalado.
-
-## Gerando o instalador do Windows
-
-Esta seção é destinada somente aos responsáveis por publicar o programa. Usuários comuns devem baixar o instalador pronto.
-
-O instalador precisa ser compilado em Windows. O projeto contém `AcervoOCR.spec` para empacotamento com PyInstaller e `instalador_windows.iss` para criação do assistente com Inno Setup. A automação em `.github/workflows/windows-installer.yml` gera o arquivo `.exe` pelo GitHub Actions.
-
-Para gerar uma nova versão, crie uma tag como `v1.0.0` no GitHub. A automação compilará o programa e anexará o instalador à página da versão. Também é possível iniciar manualmente a ação **Gerar instalador do Windows** e baixar o artefato produzido.
-
-Para compilar diretamente em um computador Windows, instale `uv`, Tesseract 64 bits e Inno Setup 6. Depois, abra o PowerShell na pasta do projeto e execute:
-
-```powershell
-.\build_windows.ps1
-```
-
-O resultado será criado em:
-
-```text
-dist\installer\AcervoOCR-Instalador-1.0.0.exe
-```
-
-O instalador final deve ser testado em uma máquina Windows limpa antes da publicação.
+Não é preciso ativar manualmente o ambiente: `executar_unix.sh` no Linux/macOS e `abrir_acervo_ocr.bat` no Windows já utilizam o Python correto dentro de `.venv`.
 
 Tecnologias e documentação oficial:
 
@@ -277,5 +295,3 @@ Tecnologias e documentação oficial:
 - [Modelos oficiais do Tesseract](https://tesseract-ocr.github.io/tessdoc/Data-Files.html)
 - [uv](https://docs.astral.sh/uv/)
 - [PySide6](https://doc.qt.io/qtforpython-6/)
-- [PyInstaller](https://pyinstaller.org/)
-- [Inno Setup](https://jrsoftware.org/isinfo.php)

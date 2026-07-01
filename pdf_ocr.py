@@ -23,8 +23,15 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--somente-portugues", action="store_true", help=argparse.SUPPRESS)
     p.add_argument(
         "--qualidade_alta",
+        dest="qualidade_alta",
         action="store_true",
-        help="usa tessdata_best, somente português e processamento em 400 DPI (mais lento)",
+        help="usa alta qualidade (já é o padrão)",
+    )
+    p.add_argument(
+        "--modo_rapido",
+        dest="qualidade_alta",
+        action="store_false",
+        help="usa o modelo mais rápido em vez do modelo de alta qualidade",
     )
     p.add_argument("--texto", action="store_true", help="criar também um arquivo .txt com o texto reconhecido")
     p.add_argument(
@@ -32,6 +39,7 @@ def parser() -> argparse.ArgumentParser:
         action="store_true",
         help="criar arquivos .txt e .json, com o texto separado por página",
     )
+    p.set_defaults(qualidade_alta=True)
     return p
 
 
@@ -94,6 +102,22 @@ def verificar_instalacao() -> None:
 
 def destino_padrao(entrada: Path) -> Path:
     return entrada.with_name(f"{entrada.stem}_ocr.pdf")
+
+
+def arquivos_da_pasta() -> list[Path]:
+    """Retorna os PDFs ainda não convertidos da pasta padrão `arquivos`."""
+    pasta = Path(__file__).resolve().parent / "arquivos"
+    pasta.mkdir(exist_ok=True)
+    pendentes: list[Path] = []
+    for arquivo in pasta.iterdir():
+        if not arquivo.is_file() or arquivo.suffix.lower() != ".pdf":
+            continue
+        if arquivo.stem.lower().endswith("_ocr"):
+            continue
+        resultado = destino_padrao(arquivo)
+        if not resultado.exists() or arquivo.stat().st_mtime > resultado.stat().st_mtime:
+            pendentes.append(arquivo)
+    return sorted(pendentes)
 
 
 def exportar_texto(saida: Path, criar_json: bool) -> None:
@@ -185,12 +209,12 @@ def converter(
 def main() -> int:
     args = parser().parse_args()
     modo_grafico = not args.arquivos
-    entradas = args.arquivos or selecionar_pdfs()
+    entradas = args.arquivos or arquivos_da_pasta()
+    if not entradas and modo_grafico:
+        entradas = selecionar_pdfs()
     if not entradas:
         print("Nenhum PDF selecionado.")
         return 1
-    if modo_grafico:
-        args.qualidade_alta = perguntar_alta_qualidade()
     idiomas = "por"
     concluidos: list[Path] = []
     try:

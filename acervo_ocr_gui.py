@@ -7,7 +7,7 @@ import os
 import sys
 from pathlib import Path
 
-from PySide6.QtCore import QObject, Qt, QThread, Signal
+from PySide6.QtCore import QObject, Qt, QThread, QTimer, Signal
 from PySide6.QtGui import QDragEnterEvent, QDropEvent
 from PySide6.QtWidgets import (
     QApplication,
@@ -24,7 +24,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from pdf_ocr import converter, destino_padrao, verificar_instalacao
+from pdf_ocr import arquivos_da_pasta, converter, destino_padrao, verificar_instalacao
 
 
 def configurar_ambiente_empacotado() -> None:
@@ -131,6 +131,7 @@ class Janela(QMainWindow):
         botoes_lista.addWidget(limpar)
 
         self.alta = QCheckBox("Alta qualidade (mais preciso, porém mais lento)")
+        self.alta.setChecked(True)
         self.txt = QCheckBox("Criar também arquivo de texto (.txt)")
         self.json = QCheckBox("Criar também arquivo estruturado (.json)")
 
@@ -174,6 +175,11 @@ class Janela(QMainWindow):
             QPushButton:disabled { background: #aebbb7; }
             QListWidget { background: white; border: 1px solid #c7d0cc; border-radius: 6px; }
         """)
+        automaticos = [str(p) for p in arquivos_da_pasta()]
+        self.adicionar_arquivos(automaticos)
+        if automaticos:
+            self.estado.setText("PDFs encontrados na pasta “arquivos”. A conversão começará automaticamente.")
+            QTimer.singleShot(500, self.iniciar)
 
     def selecionar(self) -> None:
         arquivos, _ = QFileDialog.getOpenFileNames(self, "Selecione os PDFs", "", "PDF (*.pdf)")
