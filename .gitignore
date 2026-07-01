@@ -1,0 +1,5 @@
+.venv/
+.tessdata_best/
+.tessdata_fast/
+__pycache__/
+*_ocr.pdf
