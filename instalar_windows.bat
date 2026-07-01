@@ -25,11 +25,11 @@ exit /b 0
 :tesseract_ok
 uv python install 3.12
 uv venv --python 3.12 .venv
-uv pip install --python ".venv\Scripts\python.exe" -r requirements-windows.txt
+uv pip install --python ".venv\Scripts\python.exe" -r requirements.txt
 if errorlevel 1 goto erro
 ".venv\Scripts\python.exe" instalar_modelo_best.py
 if errorlevel 1 goto erro
-echo Instalação concluída. Execute abrir_acervo_ocr.bat.
+echo Instalação concluída. Execute executar_windows.bat.
 pause
 exit /b 0
 

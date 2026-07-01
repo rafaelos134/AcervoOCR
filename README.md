@@ -97,24 +97,22 @@ O Windows deve ser de 64 bits.
 2. Clique duas vezes em `instalar_windows.bat`.
 3. O Windows instalará os componentes necessários. Se a janela pedir para ser fechada, abra `instalar_windows.bat` novamente.
 4. Aguarde a mensagem `Instalação concluída`.
-5. Nas próximas utilizações, abra `abrir_acervo_ocr.bat`.
+5. Nas próximas utilizações, abra `executar_windows.bat`.
 
-A preparação instala uma versão isolada do Python, a interface gráfica, o OCRmyPDF, o Tesseract e os modelos de português.
+A preparação instala uma versão isolada do Python, o OCRmyPDF, o Tesseract e os modelos de português.
 
 ### Como usar no Windows
 
-Clique duas vezes em `abrir_acervo_ocr.bat` para abrir a interface gráfica.
+1. Copie um ou vários PDFs para a pasta `arquivos`.
+2. Clique duas vezes em `executar_windows.bat`.
+3. Uma janela de terminal mostrará o andamento. Não a feche durante o processamento.
+4. Os PDFs pendentes serão convertidos automaticamente em alta qualidade.
 
-Na janela do AcervoOCR:
+Também é possível abrir o Terminal na pasta do programa e informar os arquivos diretamente:
 
-1. Arraste um ou vários PDFs para a grande área pontilhada. Se preferir, clique em **Selecionar PDFs**.
-2. Confira os documentos apresentados na lista. Arquivos adicionados por engano podem ser removidos.
-3. O modo **Alta qualidade** já vem marcado e é o padrão. Desmarque somente se priorizar velocidade.
-4. Marque `.txt` para exportar somente texto. Marque `.json` para criar o texto simples e também um arquivo estruturado por página.
-5. Clique em **Converter arquivos**.
-6. Mantenha o programa aberto até aparecer a mensagem de conclusão.
-
-Como alternativa, coloque os PDFs na pasta `arquivos` antes de abrir o programa. Eles serão carregados e convertidos automaticamente.
+```powershell
+.\executar_windows.bat livro.pdf jornal.pdf relatorio.pdf
+```
 
 O novo documento será salvo na mesma pasta do original. Por exemplo:
 
@@ -124,7 +122,7 @@ documento.pdf  →  documento_ocr.pdf
 
 Na próxima execução, um original que já possua resultado atualizado será ignorado. Se o PDF original for alterado posteriormente, ele será convertido novamente.
 
-Documentos grandes podem levar algum tempo. A interface informa qual arquivo está sendo processado e avisa quando tudo estiver concluído.
+Documentos grandes podem levar algum tempo. O terminal informa qual arquivo está sendo processado e avisa quando tudo estiver concluído.
 
 ## Instalação no macOS
 
@@ -149,7 +147,7 @@ Para abrir o programa posteriormente, entre novamente na pasta pelo Terminal e e
 ./executar_unix.sh
 ```
 
-Se não houver PDFs na pasta `arquivos`, uma janela será aberta para selecionar os documentos. O modo de alta qualidade será usado automaticamente. Se o macOS bloquear a primeira execução, abra **Ajustes do Sistema → Privacidade e Segurança** e autorize o programa.
+Sem nomes no comando, o programa converte automaticamente os PDFs pendentes da pasta `arquivos`. O modo de alta qualidade é usado por padrão.
 
 ## Instalação no Linux
 
@@ -173,7 +171,7 @@ Para usar o programa:
 ./executar_unix.sh
 ```
 
-Se o computador não possuir interface gráfica, informe o PDF diretamente:
+Também é possível informar o PDF diretamente:
 
 ```sh
 ./executar_unix.sh documento.pdf
@@ -187,7 +185,7 @@ O modo de alta qualidade é o padrão. Ele é indicado para documentos históric
 ./executar_unix.sh documento.pdf
 ```
 
-No Windows, a caixa **Alta qualidade** já aparece marcada.
+No Windows, o mesmo modo é usado automaticamente por `executar_windows.bat`.
 
 Esse modo:
 
@@ -255,7 +253,11 @@ Refazer o OCR de páginas que já possuem texto:
 
 Use `--forcar` apenas quando o texto existente estiver incorreto. Normalmente, o programa preserva páginas que já contêm texto.
 
-No Windows, alta qualidade e exportação TXT/JSON estão disponíveis como caixas de seleção na interface gráfica. A opção avançada `--forcar` permanece disponível no script para Linux e macOS.
+No Windows, as mesmas opções podem ser acrescentadas depois do nome de `executar_windows.bat`. Por exemplo:
+
+```powershell
+.\executar_windows.bat documento.pdf --exportar_texto
+```
 
 ## Onde ficam os resultados?
 
@@ -281,11 +283,11 @@ O programa reconhece principalmente textos impressos ou datilografados. Caligraf
 
 ## Como o programa funciona internamente
 
-O núcleo em Python chama o OCRmyPDF, que prepara cada página e acrescenta a camada pesquisável ao documento. O reconhecimento das letras é realizado pelo Tesseract com modelos específicos para português. A interface do Windows é construída com PySide6.
+O núcleo em Python chama o OCRmyPDF, que prepara cada página e acrescenta a camada pesquisável ao documento. O reconhecimento das letras é realizado pelo Tesseract com modelos específicos para português. O programa funciona exclusivamente pelo terminal.
 
 No modo comum, o programa usa `tessdata_fast`, que equilibra velocidade e precisão. No modo de alta qualidade, usa `tessdata_best`, reamostragem em 400 DPI e o mecanismo LSTM do Tesseract.
 
-Não é preciso ativar manualmente o ambiente: `executar_unix.sh` no Linux/macOS e `abrir_acervo_ocr.bat` no Windows já utilizam o Python correto dentro de `.venv`.
+Não é preciso ativar manualmente o ambiente: `executar_unix.sh` no Linux/macOS e `executar_windows.bat` no Windows já utilizam o Python correto dentro de `.venv`.
 
 Tecnologias e documentação oficial:
 
@@ -294,4 +296,3 @@ Tecnologias e documentação oficial:
 - [Idiomas no OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/languages.html)
 - [Modelos oficiais do Tesseract](https://tesseract-ocr.github.io/tessdoc/Data-Files.html)
 - [uv](https://docs.astral.sh/uv/)
-- [PySide6](https://doc.qt.io/qtforpython-6/)

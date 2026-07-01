@@ -16,7 +16,6 @@ from pathlib import Path
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         description="Adiciona OCR em português a um ou mais PDFs.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     p.add_argument("arquivos", nargs="*", type=Path, help="PDFs de entrada")
     p.add_argument("--forcar", action="store_true", help="refazer OCR inclusive em páginas que já têm texto")
@@ -41,52 +40,6 @@ def parser() -> argparse.ArgumentParser:
     )
     p.set_defaults(qualidade_alta=True)
     return p
-
-
-def selecionar_pdfs() -> list[Path]:
-    try:
-        import tkinter as tk
-        from tkinter import filedialog
-    except ImportError:
-        return []
-    root = tk.Tk()
-    root.withdraw()
-    nomes = filedialog.askopenfilenames(
-        title="Selecione os PDFs para aplicar OCR",
-        filetypes=[("Arquivos PDF", "*.pdf")],
-    )
-    root.destroy()
-    return [Path(nome) for nome in nomes]
-
-
-def perguntar_alta_qualidade() -> bool:
-    import tkinter as tk
-    from tkinter import messagebox
-
-    root = tk.Tk()
-    root.withdraw()
-    resposta = messagebox.askyesno(
-        "Qualidade do reconhecimento",
-        "Deseja usar o modo de alta qualidade?\n\n"
-        "Ele é recomendado para páginas antigas, letras pequenas ou imagens desgastadas, "
-        "mas demora mais.\n\nEscolha “Não” para o modo normal e mais rápido.",
-        parent=root,
-    )
-    root.destroy()
-    return resposta
-
-
-def mostrar_mensagem(titulo: str, mensagem: str, erro: bool = False) -> None:
-    try:
-        import tkinter as tk
-        from tkinter import messagebox
-
-        root = tk.Tk()
-        root.withdraw()
-        (messagebox.showerror if erro else messagebox.showinfo)(titulo, mensagem)
-        root.destroy()
-    except Exception:
-        pass
 
 
 def verificar_instalacao() -> None:
@@ -208,15 +161,12 @@ def converter(
 
 def main() -> int:
     args = parser().parse_args()
-    modo_grafico = not args.arquivos
     entradas = args.arquivos or arquivos_da_pasta()
-    if not entradas and modo_grafico:
-        entradas = selecionar_pdfs()
     if not entradas:
-        print("Nenhum PDF selecionado.")
+        print("Nenhum PDF pendente foi encontrado na pasta 'arquivos'.")
+        print("Coloque os PDFs nessa pasta ou informe os nomes no comando.")
         return 1
     idiomas = "por"
-    concluidos: list[Path] = []
     try:
         verificar_instalacao()
         for numero, entrada in enumerate(entradas, 1):
@@ -229,17 +179,9 @@ def main() -> int:
                 args.qualidade_alta,
             )
             print(f"Concluído: {saida.resolve()}")
-            concluidos.append(saida.resolve())
     except (RuntimeError, ValueError, subprocess.CalledProcessError) as exc:
         print(f"\nErro: {exc}", file=sys.stderr)
-        if modo_grafico:
-            mostrar_mensagem("Não foi possível concluir", str(exc), erro=True)
         return 1
-    if modo_grafico:
-        mostrar_mensagem(
-            "OCR concluído",
-            "Os documentos pesquisáveis foram criados:\n\n" + "\n".join(map(str, concluidos)),
-        )
     return 0
 
 
