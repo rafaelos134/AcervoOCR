@@ -1,8 +1,18 @@
-# PDF OCR em português
+# AcervoOCR
+
+**OCR de documentos em português para Windows, Linux e macOS.**
 
 Este programa transforma PDFs digitalizados em documentos pesquisáveis. A aparência das páginas continua praticamente igual, mas o programa acrescenta uma camada invisível de texto. Depois do processamento, é possível pesquisar palavras, selecionar trechos e copiar o conteúdo para outros programas.
 
 Todo o reconhecimento é feito no próprio computador. Os documentos não são enviados para serviços externos.
+
+## Uso rápido no Windows
+
+1. Instale o programa com `AcervoOCR-Instalador-1.0.0.exe`.
+2. Abra o atalho **AcervoOCR**.
+3. Arraste um ou vários PDFs para a janela.
+4. Clique em **Converter arquivos**.
+5. Encontre cada resultado na pasta do original com o nome `nome_ocr.pdf`.
 
 ## O que é OCR?
 
@@ -39,27 +49,40 @@ O resultado do OCR deve ser entendido como um auxílio à pesquisa, não como um
 
 ## Antes de instalar
 
-É necessário ter acesso à internet durante a instalação. O instalador baixa o mecanismo de OCR, o modelo de português e uma versão isolada do Python. Depois disso, o processamento dos PDFs pode ser realizado sem internet.
+No Windows, o instalador já contém o programa e todas as dependências; a instalação e o processamento podem ser realizados sem internet depois que o arquivo `.exe` for baixado. No Linux e no macOS, é necessário ter acesso à internet durante a instalação inicial.
 
 Reserve aproximadamente 1 GB de espaço livre. O modo de alta qualidade pode demorar vários minutos em documentos extensos, dependendo do computador e da qualidade das páginas.
 
 ## Instalação no Windows 10 ou 11
 
-O Windows deve ser de 64 bits e possuir o aplicativo `winget`, incluído nas versões atuais do Windows 10 e 11.
+O Windows deve ser de 64 bits. O usuário não precisa instalar Python, Tesseract, bibliotecas nem utilizar o Prompt de Comando.
 
-1. Baixe ou copie toda a pasta deste programa para o computador.
-2. Abra a pasta e clique duas vezes em `instalar_windows.bat`.
-3. O Windows poderá pedir autorização para instalar componentes. Aceite para continuar.
-4. Na primeira execução, o instalador poderá instalar o `uv` e pedir que a janela seja fechada. Nesse caso, feche a janela e clique novamente em `instalar_windows.bat`.
-5. Se aparecer a instalação do Tesseract, prossiga normalmente. Os modelos de português são baixados automaticamente pelo próprio instalador deste programa.
-6. Se uma mensagem pedir para fechar a janela e executar o instalador novamente, faça isso. Essa repetição é necessária apenas para o Windows reconhecer um componente recém-instalado.
-7. Aguarde a mensagem `Instalação concluída`.
+1. Baixe o arquivo `AcervoOCR-Instalador-1.0.0.exe` na página de versões do projeto.
+2. Clique duas vezes no arquivo baixado.
+3. O Windows poderá perguntar se deseja permitir a instalação. Confira o nome **AcervoOCR** e prossiga.
+4. Escolha a pasta de instalação ou mantenha a opção sugerida.
+5. Deixe marcada a opção para criar um atalho na Área de Trabalho.
+6. Clique em **Instalar** e aguarde.
+7. Ao final, clique em **Concluir** para abrir o programa.
 
-Não é necessário instalar Python manualmente. O instalador prepara uma versão própria do Python 3.12 dentro da pasta do programa, sem modificar outros projetos existentes no computador.
+O instalador é um assistente convencional do Windows. Ele inclui o aplicativo, Python, OCRmyPDF, Tesseract e os modelos de português. O programa também aparecerá em **Configurações → Aplicativos → Aplicativos instalados**, onde poderá ser desinstalado normalmente.
+
+> **Aviso sobre o Windows SmartScreen:** enquanto o instalador não possuir uma assinatura digital comercial, o Windows poderá mostrar a mensagem “O Windows protegeu o computador”. Nesse caso, confirme que o arquivo veio da página oficial do projeto, clique em **Mais informações** e depois em **Executar assim mesmo**. Para distribuição pública ampla, recomenda-se assinar digitalmente o instalador.
 
 ### Como usar no Windows
 
-Para o uso comum, clique duas vezes em `executar_windows.bat`. Uma janela permitirá selecionar um ou mais PDFs. Também é possível arrastar PDFs e soltá-los sobre `executar_windows.bat`.
+Ao terminar a instalação, será criado o atalho **AcervoOCR** na Área de Trabalho e no Menu Iniciar. Clique duas vezes no atalho para abrir a interface gráfica.
+
+Na janela do AcervoOCR:
+
+1. Arraste um ou vários PDFs para a grande área pontilhada. Se preferir, clique em **Selecionar PDFs**.
+2. Confira os documentos apresentados na lista. Arquivos adicionados por engano podem ser removidos.
+3. Marque **Alta qualidade** para documentos antigos, desgastados ou com letras pequenas. Essa opção demora mais.
+4. Marque `.txt` para exportar somente texto. Marque `.json` para criar o texto simples e também um arquivo estruturado por página.
+5. Clique em **Converter arquivos**.
+6. Mantenha o programa aberto até aparecer a mensagem de conclusão.
+
+Não é necessário abrir o Prompt de Comando, digitar comandos ou ativar o ambiente Python.
 
 O novo documento será salvo na mesma pasta do original. Por exemplo:
 
@@ -67,7 +90,7 @@ O novo documento será salvo na mesma pasta do original. Por exemplo:
 documento.pdf  →  documento_ocr.pdf
 ```
 
-Não feche a janela preta durante o processamento. Documentos grandes podem levar algum tempo e a janela exibirá o andamento.
+Documentos grandes podem levar algum tempo. A interface informa qual arquivo está sendo processado e avisa quando tudo estiver concluído.
 
 ## Instalação no macOS
 
@@ -128,11 +151,7 @@ O modo comum oferece um bom equilíbrio entre velocidade e precisão. Para docum
 ./executar_unix.sh documento.pdf --qualidade_alta
 ```
 
-No Windows, abra a pasta no Terminal ou Prompt de Comando e execute:
-
-```bat
-executar_windows.bat documento.pdf --qualidade_alta
-```
+No Windows, basta marcar **Alta qualidade** na interface antes de clicar em **Converter arquivos**.
 
 Esse modo:
 
@@ -142,7 +161,7 @@ Esse modo:
 - utiliza o mecanismo LSTM do Tesseract;
 - aplica segmentação automática, correção de inclinação e rotação.
 
-O processamento será mais lento e consumirá mais memória. O modelo de alta qualidade é baixado automaticamente pelo instalador.
+O processamento será mais lento e consumirá mais memória. No Windows, o modelo já está incluído no aplicativo. No Linux e no macOS, ele é baixado automaticamente durante a instalação.
 
 ## Outros comandos úteis
 
@@ -196,7 +215,7 @@ Refazer o OCR de páginas que já possuem texto:
 
 Use `--forcar` apenas quando o texto existente estiver incorreto. Normalmente, o programa preserva páginas que já contêm texto.
 
-No Windows, substitua `./executar_unix.sh` por `executar_windows.bat` nos exemplos acima.
+No Windows, alta qualidade e exportação TXT/JSON estão disponíveis como caixas de seleção na interface gráfica. A opção avançada `--forcar` permanece disponível no script para Linux e macOS.
 
 ## Onde ficam os resultados?
 
@@ -222,9 +241,33 @@ O programa reconhece principalmente textos impressos ou datilografados. Caligraf
 
 ## Como o programa funciona internamente
 
-O script em Python chama o OCRmyPDF, que prepara cada página e acrescenta a camada pesquisável ao documento. O reconhecimento das letras é realizado pelo Tesseract com modelos de português. O `uv` cria um ambiente isolado chamado `.venv`, onde ficam o Python e as bibliotecas necessárias.
+O núcleo em Python chama o OCRmyPDF, que prepara cada página e acrescenta a camada pesquisável ao documento. O reconhecimento das letras é realizado pelo Tesseract com modelos específicos para português. A interface do Windows é construída com PySide6.
 
-Não é preciso ativar manualmente esse ambiente. Os arquivos `executar_windows.bat` e `executar_unix.sh` já utilizam o Python correto dentro de `.venv`.
+No modo comum, o programa usa `tessdata_fast`, que equilibra velocidade e precisão. No modo de alta qualidade, usa `tessdata_best`, reamostragem em 400 DPI e o mecanismo LSTM do Tesseract.
+
+No Linux e no macOS, não é preciso ativar manualmente esse ambiente: `executar_unix.sh` já utiliza o Python correto. No Windows, todos os componentes ficam empacotados dentro do aplicativo instalado.
+
+## Gerando o instalador do Windows
+
+Esta seção é destinada somente aos responsáveis por publicar o programa. Usuários comuns devem baixar o instalador pronto.
+
+O instalador precisa ser compilado em Windows. O projeto contém `AcervoOCR.spec` para empacotamento com PyInstaller e `instalador_windows.iss` para criação do assistente com Inno Setup. A automação em `.github/workflows/windows-installer.yml` gera o arquivo `.exe` pelo GitHub Actions.
+
+Para gerar uma nova versão, crie uma tag como `v1.0.0` no GitHub. A automação compilará o programa e anexará o instalador à página da versão. Também é possível iniciar manualmente a ação **Gerar instalador do Windows** e baixar o artefato produzido.
+
+Para compilar diretamente em um computador Windows, instale `uv`, Tesseract 64 bits e Inno Setup 6. Depois, abra o PowerShell na pasta do projeto e execute:
+
+```powershell
+.\build_windows.ps1
+```
+
+O resultado será criado em:
+
+```text
+dist\installer\AcervoOCR-Instalador-1.0.0.exe
+```
+
+O instalador final deve ser testado em uma máquina Windows limpa antes da publicação.
 
 Tecnologias e documentação oficial:
 
@@ -233,3 +276,6 @@ Tecnologias e documentação oficial:
 - [Idiomas no OCRmyPDF](https://ocrmypdf.readthedocs.io/en/latest/languages.html)
 - [Modelos oficiais do Tesseract](https://tesseract-ocr.github.io/tessdoc/Data-Files.html)
 - [uv](https://docs.astral.sh/uv/)
+- [PySide6](https://doc.qt.io/qtforpython-6/)
+- [PyInstaller](https://pyinstaller.org/)
+- [Inno Setup](https://jrsoftware.org/isinfo.php)
